@@ -1,9 +1,16 @@
 <?php
 
-namespace frontend\components\travelpayouts;
+namespace SonkoDmitry\travelpayouts\widgets;
 
 use yii\base\Widget;
 
+/**
+ * Виджет подписки
+ *
+ * @link https://www.travelpayouts.com/tools/widgets/subscriptions
+ * @link https://support.travelpayouts.com/hc/ru/articles/204596297
+ * @package SonkoDmitry\travelpayouts\widgets
+ */
 class SubscriptionWidget extends Widget
 {
     /**
@@ -56,7 +63,7 @@ class SubscriptionWidget extends Widget
             'powered_by' => var_export(boolval($this->powered_by), true),
         ];
         if ($this->width) {
-            $params['width'] = intval($this->width) . 'px';
+            $params['width'] = $this->width . 'px';
         }
 
         return $this->render('subscriptionWidget', ['query' => http_build_query($params)]);
