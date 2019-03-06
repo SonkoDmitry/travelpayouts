@@ -1,7 +1,7 @@
 Widget and travelpayouts.com API wrapper for Yii2 is free software. It is released under
 the terms of the following BSD License.
 
-Copyright © 2018 by Dmitry Sonko. All rights reserved.
+Copyright © 2019 by Dmitry Sonko. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions

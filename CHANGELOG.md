@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.1 (2018-03-06)
+1.0.1 (2019-03-06)
 ----------------------
 **New features:**
 
@@ -25,7 +25,7 @@ https://support.travelpayouts.com/hc/ru/articles/360021814952
 
 * ***view*** property added to SubscriptionWidget. Now you can change view file for render widget
 
-1.0.0 (2018-02-21)
+1.0.0 (2019-02-21)
 ----------------------
 
 **New features:**
