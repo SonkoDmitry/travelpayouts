@@ -49,6 +49,10 @@ class SubscriptionWidget extends Widget
      * @var bool Добавить реферальную ссылку
      */
     public $powered_by = true;
+    /**
+     * @var string Имя файла отображения, можно изменить на свой разместив в нужном месте проекта и указан его при вызове
+     */
+    public $view = 'subscriptionWidget';
 
     public function run()
     {
@@ -66,6 +70,6 @@ class SubscriptionWidget extends Widget
             $params['width'] = $this->width . 'px';
         }
 
-        return $this->render('subscriptionWidget', ['query' => http_build_query($params)]);
+        return $this->render($this->view, ['query' => http_build_query($params)]);
     }
 }

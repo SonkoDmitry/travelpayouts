@@ -28,7 +28,7 @@ Usage
  use SonkoDmitry\travelpayouts\widgets\SubscriptionWidget;
  ```
 
-0. Now you can use component
+1. Now you can use component
  ```php
  <?= SubscriptionWidget::widget([
      'backgroundColor' => '#00b1dd',
