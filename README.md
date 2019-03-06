@@ -1,4 +1,4 @@
-Telegram bot API for Yii2
+Travelpayouts widgets and API for Yii2
 ================
 [![Packagist](https://img.shields.io/packagist/l/sonko-dmitry/travelpayouts.svg)](https://github.com/SonkoDmitry/travelpayouts/blob/master/LICENSE.md)
 [![Packagist](https://img.shields.io/packagist/v/sonko-dmitry/travelpayouts.svg)](https://packagist.org/packages/sonko-dmitry/travelpayouts)
