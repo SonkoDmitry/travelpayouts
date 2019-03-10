@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.1.0 (2019-03-10)
+----------------------
+**New features:**
+
+* DataService for static json data added. Available airlines, alliances, citie, countries and other data. 
+
 1.0.2 (2019-03-08)
 ----------------------
 

@@ -21,14 +21,14 @@ The preferred way to install this extension is through [composer](http://getcomp
  to the `require` section of your `composer.json` file.
 
 
-Usage
+Widgets usage
 -----
-0. Add the component in your view file:
+1. Add the component in your view file:
  ```php
  use SonkoDmitry\travelpayouts\widgets\SubscriptionWidget;
  ```
 
-1. Now you can use component
+2. Now you can use component
  ```php
  <?= SubscriptionWidget::widget([
      'backgroundColor' => '#00b1dd',
@@ -41,3 +41,22 @@ Usage
  ]) ?>
  ```
  Where "12345" marker value is your Travelpayouts partner token.
+ 
+ Usage as component
+ ------------------
+ 
+0. Add the component configuration in your *global* `main.php` config file:
+```php
+'travelpayouts' => [
+    'class' => 'SonkoDmitry\travelpayouts\Travelpayouts',
+    'token' => '12345',
+    //'useLocalData' => false, //you can change this property globally for all data components, if you want use only remote data for examle
+],
+```
+Where "12345" marker value is your Travelpayouts partner token.
+  
+0. Now you can use component (list all contries in data)
+```php
+$countries = Yii::$app->travelpayouts->data->countries;
+
+``` 
