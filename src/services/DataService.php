@@ -73,7 +73,7 @@ class DataService extends Component implements Configurable
             throw new Exception('"' . $name . '" data not available');
         }
 
-        if ($this->_localized && $this->_useLocalData && !file_exists(Yii::getAlias('@common/components/travelpayouts/data/' . $this->_locale . '/' . $name . '.json'))) {
+        if ($this->_localized && $this->_useLocalData && !file_exists(Yii::getAlias('@SonkoDmitry/travelpayouts/data/' . $this->_locale . '/' . $name . '.json'))) {
             throw new Exception('"' . $name . '" local data not available in "' . $this->_locale . '" locale');
         }
 
