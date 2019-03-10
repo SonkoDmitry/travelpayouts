@@ -2,7 +2,14 @@
 	"name": "sonko-dmitry/travelpayouts",
 	"description": "Widget and API wrapper for travelpayouts.com",
 	"type": "yii2-extension",
-	"keywords": ["travelpayouts", "travelpayouts.com", "api", "widget", "yii", "yii2"],
+	"keywords": [
+		"travelpayouts",
+		"travelpayouts.com",
+		"api",
+		"widget",
+		"yii",
+		"yii2"
+	],
 	"license": "BSD-3-Clause",
 	"authors": [
 		{
@@ -11,7 +18,8 @@
 		}
 	],
 	"require": {
-		"yiisoft/yii2": "*"
+		"yiisoft/yii2": "*",
+		"yiisoft/yii2-httpclient": "^2.0"
 	},
 	"autoload": {
 		"psr-4": {
