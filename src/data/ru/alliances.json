@@ -1,0 +1,23 @@
+[
+	{
+		"name": "Star Alliance",
+		"name_translations": {
+			"en": "Star Alliance"
+		}
+	},
+	{
+		"name": "OneWorld",
+		"name_translations": {
+			"en": "OneWorld"
+		},
+		"airlines": [
+			"CJ"
+		]
+	},
+	{
+		"name": "SkyTeam",
+		"name_translations": {
+			"en": "SkyTeam"
+		}
+	}
+]
