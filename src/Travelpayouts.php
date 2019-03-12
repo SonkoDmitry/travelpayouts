@@ -3,6 +3,7 @@
 namespace SonkoDmitry\travelpayouts;
 
 use \SonkoDmitry\travelpayouts\services\DataService;
+use \SonkoDmitry\travelpayouts\services\FlightsService;
 use Yii;
 use Exception;
 use yii\base\Component;
@@ -13,6 +14,7 @@ use yii\base\Configurable;
  * @package \SonkoDmitry\travelpayouts
  *
  * @property \SonkoDmitry\travelpayouts\services\DataService $data
+ * @property \SonkoDmitry\travelpayouts\services\FlightsService $flights
  */
 class Travelpayouts extends Component implements Configurable
 {
@@ -47,10 +49,22 @@ class Travelpayouts extends Component implements Configurable
      */
     public function getData()
     {
-        if (empty($this->services['flightsData'])) {
-            $this->services['flightsData'] = new DataService([
+        if (empty($this->services['staticData'])) {
+            $this->services['staticData'] = new DataService([
                 'locale' => $this->locale,
                 'useLocalData' => $this->useLocalData,
+            ]);
+        }
+
+        return $this->services['staticData'];
+    }
+
+    public function getFlights()
+    {
+        if (empty($this->services['flightsData'])) {
+            $this->services['flightsData'] = new FlightsService([
+                'locale' => $this->locale,
+                'token' => $this->token,
             ]);
         }
 

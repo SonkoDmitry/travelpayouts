@@ -3,6 +3,7 @@ Travelpayouts widgets and API for Yii2
 [![Packagist](https://img.shields.io/packagist/l/sonko-dmitry/travelpayouts.svg)](https://github.com/SonkoDmitry/travelpayouts/blob/master/LICENSE.md)
 [![Packagist](https://img.shields.io/packagist/v/sonko-dmitry/travelpayouts.svg)](https://packagist.org/packages/sonko-dmitry/travelpayouts)
 [![Packagist](https://img.shields.io/packagist/dt/sonko-dmitry/travelpayouts.svg)](https://packagist.org/packages/sonko-dmitry/travelpayouts)
+[![Yii](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)](http://www.yiiframework.com/)
 
 This extension is the way to integrate [Travelpayouts.com](http://travelpayouts.com) API and widgets with your Yii2 application.
 

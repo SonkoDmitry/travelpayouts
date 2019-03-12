@@ -9,7 +9,8 @@ use Exception;
 use yii\httpclient\Client;
 
 /**
- * Компонет для работы с АПИ данных авиабилетов, аэропортов
+ * Компонет для работы со статическими данными
+ *
  * @package \SonkoDmitry\travelpayouts\services
  *
  * @property array $airlines Данные об авиакомпаниях
