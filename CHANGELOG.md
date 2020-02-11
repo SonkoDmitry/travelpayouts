@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.1.1 (2020-02-11)
+----------------------
+**New features:**
+
+* Added locale param to DucklettWidget
+
 1.1.0 (2019-03-10)
 ----------------------
 **New features:**

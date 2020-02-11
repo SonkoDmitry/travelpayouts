@@ -22,6 +22,10 @@ class DucklettWidget extends Widget
      */
     public $widget_type = 'brickwork';
     /**
+     * @var string Язык виджета
+     */
+    public $locale = 'ru';
+    /**
      * @var string Валюта
      */
     public $currency = 'rub';
@@ -67,9 +71,10 @@ class DucklettWidget extends Widget
         $params = [
             'widget_type' => $this->widget_type,
             'currency' => $this->currency,
+            'locale' => $this->locale,
             'width' => $this->width,
             'host' => $this->host,
-            'marker' => $this->marker . '.'.$this->additional_marker,
+            'marker' => $this->marker . '.' . $this->additional_marker,
             'additional_marker' => $this->additional_marker,
             'limit' => $this->limit,
             'powered_by' => var_export(boolval($this->powered_by), true),
@@ -90,6 +95,6 @@ class DucklettWidget extends Widget
             }
         }
 
-        return $this->render($this->view, ['query' => http_build_query($params)]);
+        return $this->render($this->view, ['query' => http_build_query($params), 'locale' => $this->locale]);
     }
 }
