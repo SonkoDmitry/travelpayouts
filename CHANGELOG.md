@@ -1,5 +1,10 @@
 Changelog
 =========
+1.1.2 (2020-02-12)
+----------------------
+**New features:**
+
+* Added locale param to BlisseyWidget
 
 1.1.1 (2020-02-11)
 ----------------------

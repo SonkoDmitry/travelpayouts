@@ -22,6 +22,10 @@ class BlisseyWidget extends Widget
      */
     public $type = 'full';
     /**
+     * @var string Язык виджета
+     */
+    public $locale = 'ru';
+    /**
      * @var string Валюта
      */
     public $currency = 'rub';
@@ -112,6 +116,6 @@ class BlisseyWidget extends Widget
             }
         }
 
-        return $this->render($this->view, ['query' => http_build_query($params)]);
+        return $this->render($this->view, ['query' => http_build_query($params), 'locale' => $this->locale]);
     }
 }
