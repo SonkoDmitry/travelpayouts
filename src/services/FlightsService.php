@@ -15,9 +15,18 @@ use yii\httpclient\Client;
  * @package SonkoDmitry\travelpayouts\services
  *
  * @property array $cityDirections Популярные направления из города
+ * @property array $airlineDirections Популярные направления авиакомпании
+ * @property string $lastUrl Последний запрашиваемый урл АПИ
+ * @property string $lastData Параметры последнего запроса данных
+ * @property string $lastResponse Последний ответ от АПИ
+ * @property string $lastResponseStatus Последний статус ответ от АПИ
  */
 class FlightsService extends Component implements Configurable
 {
+    protected $_lastUrl;
+    protected $_lastData;
+    protected $_lastResponseStatus;
+    protected $_lastResponse;
     /**
      * @var string партнерский токен
      * @link https://support.travelpayouts.com/hc/ru/articles/203956083
@@ -37,11 +46,32 @@ class FlightsService extends Component implements Configurable
      */
     protected $_available_datas = [
         'cityDirections' => 'v1/city-directions',
+        'airlineDirections' => 'v1/airline-directions',
     ];
     /**
      * @var string Адрес по которому размещаются данные на сервере
      */
     protected $_host = 'http://api.travelpayouts.com';
+
+    public function getLastUrl()
+    {
+        return $this->_lastUrl;
+    }
+
+    public function getLastData()
+    {
+        return $this->_lastData;
+    }
+
+    public function getLastResponseStatus()
+    {
+        return $this->_lastResponseStatus;
+    }
+
+    public function getLastResponse()
+    {
+        return $this->_lastResponse;
+    }
 
     public function __construct($config = [])
     {
@@ -94,17 +124,72 @@ class FlightsService extends Component implements Configurable
                 'baseUrl' => $this->_host,
             ]);
         }
+        $this->_lastUrl = $this->_host . '/v1/city-directions';
+        $requestData = [
+            'origin' => strtoupper($origin),
+            'currency' => $currency,
+            'token' => $this->_token,
+        ];
 
-        $path = '/v1/city-directions?' . http_build_query([
-                'origin' => $origin,
-                'currency' => $currency,
-                'token' => $this->_token,
-            ]);
+        $path = '/v1/city-directions?' . http_build_query($requestData);
+        if (isset($requestData['token'])) {
+            unset($requestData['token']);
+        }
+        $this->_lastData = json_encode($requestData, JSON_UNESCAPED_UNICODE);
+        $this->_lastResponse = $this->_lastResponseStatus = null;
 
         if (($response = $this->_client->get($path)->send()) && $response->isOk) {
             $return = $response->data;
-        } elseif (!empty($response) && $response->statusCode == '404') {
-            throw new Exception('remote data not available');
+            $this->_lastResponseStatus = $response->statusCode;
+            $this->_lastResponse = json_encode($return, JSON_UNESCAPED_UNICODE);
+        } else {
+            $this->_lastResponseStatus = $response->statusCode;
+            if (!empty($response) && $response->statusCode == '404') {
+                throw new Exception('remote data not available');
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * Популярные направления из города
+     *
+     * @param string $airline_code авиакомпания, IATA код
+     * @param string $limit количество отображаемых записей
+     *
+     * @return mixed
+     * @throws \yii\httpclient\Exception
+     */
+    public function getAirlineDirections($airline_code = 'SU', $limit = 10)
+    {
+        if (empty($this->_client)) {
+            $this->_client = new Client([
+                'baseUrl' => $this->_host,
+            ]);
+        }
+
+        $requestData = [
+            'airline_code' => strtoupper($airline_code),
+            'limit' => $limit,
+            'token' => $this->_token,
+        ];
+        $path = '/v1/airline-directions?' . http_build_query($requestData);
+        if (isset($requestData['token'])) {
+            unset($requestData['token']);
+        }
+        $this->_lastData = json_encode($requestData, JSON_UNESCAPED_UNICODE);
+        $this->_lastResponse = $this->_lastResponseStatus = null;
+
+        if (($response = $this->_client->get($path)->send()) && $response->isOk) {
+            $return = $response->data;
+            $this->_lastResponseStatus = $response->statusCode;
+            $this->_lastResponse = json_encode($return, JSON_UNESCAPED_UNICODE);
+        } else {
+            $this->_lastResponseStatus = $response->statusCode;
+            if (!empty($response) && $response->statusCode == '404') {
+                throw new Exception('remote data not available');
+            }
         }
 
         return $return;

@@ -1,5 +1,12 @@
 Changelog
 =========
+1.1.3 (2020-02-25)
+----------------------
+**New features:**
+
+* Added logging api params
+* Some fixes and new methods
+
 1.1.2 (2020-02-12)
 ----------------------
 **New features:**
