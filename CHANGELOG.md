@@ -1,5 +1,11 @@
 Changelog
 =========
+1.1.4 (2020-03-03)
+----------------------
+**New features:**
+
+* Latest prices data service
+
 1.1.3 (2020-02-25)
 ----------------------
 **New features:**

@@ -16,6 +16,8 @@ use yii\httpclient\Client;
  *
  * @property array $cityDirections Популярные направления из города
  * @property array $airlineDirections Популярные направления авиакомпании
+ * @property array $latestPrice Цены на авиабилеты за 48 часов
+ *
  * @property string $lastUrl Последний запрашиваемый урл АПИ
  * @property string $lastData Параметры последнего запроса данных
  * @property string $lastResponse Последний ответ от АПИ
@@ -47,6 +49,7 @@ class FlightsService extends Component implements Configurable
     protected $_available_datas = [
         'cityDirections' => 'v1/city-directions',
         'airlineDirections' => 'v1/airline-directions',
+        'latestPrice' => '/v2/prices/latest',
     ];
     /**
      * @var string Адрес по которому размещаются данные на сервере
@@ -195,45 +198,67 @@ class FlightsService extends Component implements Configurable
         return $return;
     }
 
-    public function getLatestPrice(
-        $origin = null,
-        $destination = null,
-        $beginning_of_period = null,
-        $period_type = null,
-        $one_way = null,
-        $page = null,
-        $limit = null,
-        $show_to_affiliates = null,
-        $sorting = null,
-        $trip_duration = null,
-        $currency = null
-    ) {
+    public function getLatestPrice($params)
+    {
+        $paramsDefault = [
+            'currency' => 'rub',
+            'origin' => null,
+            'destination' => null,
+            'beginning_of_period' => null,
+            'period_type' => null,
+            'one_way' => false,
+            'page' => 1,
+            'limit' => 30,
+            'show_to_affiliates' => true,
+            'sorting' => 'price',
+            'trip_duration' => null,
+        ];
+
         if (empty($this->_client)) {
             $this->_client = new Client([
                 'baseUrl' => $this->_host,
             ]);
         }
 
-        $params = [
-            'currency' => $currency,
-            'origin' => $origin,
-            'destination' => $destination,
-            'beginning_of_period' => $beginning_of_period,
-            'period_type' => $period_type,
-            'one_way' => var_export((boolean) $one_way, true),
-            'page' => $page,
-            'limit' => $limit,
-            'show_to_affiliates' => var_export((boolean) $show_to_affiliates, true),
-            'sorting' => $sorting,
-            'trip_duration' => $trip_duration,
+        $requestParams = [
             'token' => $this->_token,
         ];
 
+        foreach ($params as $index => $value) {
+            if ($value === null || $value === '') {
+                continue;
+            }
+            if ($index == 'origin' || $index == 'destination') {
+                $requestParams[$index] = strtoupper($value);
+            } elseif ($index == 'one_way' || $index == 'show_to_affiliates') {
+                $requestParams[$index] = var_export((boolean) $value, true);
+            } else {
+                $requestParams[$index] = $value;
+            }
+        }
+
+        $path = '/v2/prices/latest';
+        $this->_lastUrl = $this->_host . $path;
+
+        $path = $path . '?' . http_build_query($requestParams);
+        if (isset($requestParams['token'])) {
+            unset($requestParams['token']);
+        }
+        $this->_lastData = json_encode($requestParams, JSON_UNESCAPED_UNICODE);
+        $this->_lastResponse = $this->_lastResponseStatus = null;
+
         $return = null;
-        if (($response = $this->_client->get('/v2/prices/latest?' . http_build_query($params))->send()) && $response->isOk) {
+        if (($response = $this->_client->get($path, null, [
+                'Accept-Encoding' => 'gzip, deflate',
+            ])->send()) && $response->isOk) {
             $return = $response->data;
-        } elseif (!empty($response) && $response->statusCode == '404') {
-            throw new Exception('remote data not available');
+            $this->_lastResponseStatus = $response->statusCode;
+            $this->_lastResponse = json_encode($return, JSON_UNESCAPED_UNICODE);
+        } else {
+            $this->_lastResponseStatus = $response->statusCode;
+            if (!empty($response) && $response->statusCode == '404') {
+                throw new Exception('remote data not available');
+            }
         }
 
         return $return;
